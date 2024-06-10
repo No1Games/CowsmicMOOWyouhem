@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+
+    [Header("Player parameters")]
+    
+    [SerializeField] float moveSpeed;
+    [SerializeField] float dashPower;
+
+    [Header("Technical staff")]
     PlayersInput control;
     Rigidbody rb;
     Camera cam;
     Vector3 lookPos;
-    [SerializeField] float moveSpeed;
+    
     [SerializeField] float camDistance;
+    
+    [Header("Shooting parameters")]
+    [SerializeField] string bulletPrefabName;
 
     private void Awake()
     {
@@ -21,6 +31,8 @@ public class PlayerScript : MonoBehaviour
     private void OnEnable()
     {
         control.GameInput.Enable();
+        control.GameInput.Dash.performed += _ => Dash();
+        control.GameInput.Shot.performed += _ => Shot();
     }
 
 
@@ -34,6 +46,7 @@ public class PlayerScript : MonoBehaviour
     {
         PlayerMove();
         PlayerTarget();
+        
         //CameraFollow тимчасова
         Vector3 followPosition = new Vector3(transform.position.x, cam.transform.position.y, transform.position.z- camDistance); 
         cam.transform.position = followPosition;
@@ -67,6 +80,33 @@ public class PlayerScript : MonoBehaviour
 
         transform.LookAt(transform.position + lookDirection, Vector3.up);
 
+    }
+
+    void Dash()
+    {
+        Vector2 moveDirection = control.GameInput.Movement.ReadValue<Vector2>();
+        Vector3 movement = new Vector3(moveDirection.x, 0, moveDirection.y);
+        if(movement.y !=0 || movement.x != 0)
+        {
+            rb.AddForce(movement * dashPower, ForceMode.Impulse);
+        }
+        else
+        {
+            rb.AddForce(transform.forward * dashPower, ForceMode.Impulse);
+        }
+        
+    }
+
+    //може замінити силу вистрілу на варіативну та іменну змінну
+    // зробити щоб пуля руйнувалася при зіткненні і просто через час
+    // зробити щоб затискання кнопки продовжувало спавнити патрони
+    void Shot() 
+    {
+        GameObject bulletPref = Resources.Load<GameObject>(bulletPrefabName);
+        GameObject spawnPoint = GameObject.Find("ShootingPoint");
+        GameObject bullet = Instantiate(bulletPref, spawnPoint.transform.position, Quaternion.identity);
+        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        bulletRb.AddForce(transform.forward * 20, ForceMode.Impulse);
     }
 
     
