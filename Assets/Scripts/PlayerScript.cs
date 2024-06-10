@@ -6,12 +6,16 @@ public class PlayerScript : MonoBehaviour
 {
     PlayersInput control;
     Rigidbody rb;
+    Camera cam;
+    Vector3 lookPos;
     [SerializeField] float moveSpeed;
+    [SerializeField] float camDistance;
 
     private void Awake()
     {
         control = new PlayersInput();
         rb = GetComponent<Rigidbody>();
+        cam = Camera.main;
         
     }
     private void OnEnable()
@@ -30,6 +34,10 @@ public class PlayerScript : MonoBehaviour
     {
         PlayerMove();
         PlayerTarget();
+        //CameraFollow тимчасова
+        Vector3 followPosition = new Vector3(transform.position.x, cam.transform.position.y, transform.position.z- camDistance); 
+        cam.transform.position = followPosition;
+        
 
 
     }
@@ -42,12 +50,26 @@ public class PlayerScript : MonoBehaviour
 
      }
 
-    void PlayerTarget() // TODO треба переробити те як персонаж слідкує за курсором бо це не працює
+    void PlayerTarget() //TODO: пофіксити проблему коли рей не б'ється ні в що.
     {
         Vector2 mousePos = control.GameInput.MousePosition.ReadValue<Vector2>();
-        Vector3 targetPos = new Vector3(mousePos.x, 0, mousePos.y);
-        transform.LookAt(targetPos);
+        Ray ray = cam.ScreenPointToRay(mousePos);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+        lookPos = hit.point;
+
+        }
+
+        Vector3 lookDirection = lookPos - transform.position;
+        lookDirection.y = 0;
+
+        transform.LookAt(transform.position + lookDirection, Vector3.up);
+
     }
+
+    
 
     private void OnDisable()
     {
