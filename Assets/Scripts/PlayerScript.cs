@@ -18,8 +18,7 @@ public class PlayerScript : MonoBehaviour
     
     [SerializeField] float camDistance;
     
-    [Header("Shooting parameters")]
-    [SerializeField] string bulletPrefabName;
+   
 
     private void Awake()
     {
@@ -32,7 +31,7 @@ public class PlayerScript : MonoBehaviour
     {
         control.GameInput.Enable();
         control.GameInput.Dash.performed += _ => Dash();
-        control.GameInput.Shot.performed += _ => Shot();
+        
     }
 
 
@@ -97,17 +96,7 @@ public class PlayerScript : MonoBehaviour
         
     }
 
-    //може замінити силу вистрілу на варіативну та іменну змінну
-    // зробити щоб пуля руйнувалася при зіткненні і просто через час
-    // зробити щоб затискання кнопки продовжувало спавнити патрони
-    void Shot() 
-    {
-        GameObject bulletPref = Resources.Load<GameObject>(bulletPrefabName);
-        GameObject spawnPoint = GameObject.Find("ShootingPoint");
-        GameObject bullet = Instantiate(bulletPref, spawnPoint.transform.position, Quaternion.identity);
-        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        bulletRb.AddForce(transform.forward * 20, ForceMode.Impulse);
-    }
+    
 
     
 
