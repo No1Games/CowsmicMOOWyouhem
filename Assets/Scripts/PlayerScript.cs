@@ -48,8 +48,8 @@ public class PlayerScript : MonoBehaviour
         PlayerTarget();
         
         //CameraFollow тимчасова
-        Vector3 followPosition = new Vector3(transform.position.x, cam.transform.position.y, transform.position.z- camDistance); 
-        cam.transform.position = followPosition;
+        //Vector3 followPosition = new Vector3(transform.position.x, cam.transform.position.y, transform.position.z- camDistance); 
+        //cam.transform.position = followPosition;
         
 
 
