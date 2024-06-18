@@ -56,8 +56,7 @@ public class MainWeapon : MonoBehaviour
 
     }
     
-    // зробити щоб пуля руйнувалася при зіткненні 
-    
+        
     void Shot()
     {
         float bulletSpeed = 20;

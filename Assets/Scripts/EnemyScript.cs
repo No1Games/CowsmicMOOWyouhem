@@ -7,6 +7,10 @@ public class EnemyScript : MonoBehaviour
     // Start is called before the first frame update
     private float maxHP = 100;
     private float currentHP;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float attackDamage;
+
+
     void Awake()
     {
         currentHP = maxHP; 
@@ -24,9 +28,15 @@ public class EnemyScript : MonoBehaviour
         }
         
     }
-    // Update is called once per frame
+    
+    private void PlayerFollow()
+    {
+
+    }
     void Update()
     {
         
     }
+
+
 }

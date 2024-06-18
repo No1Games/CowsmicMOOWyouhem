@@ -9,22 +9,22 @@ public class PlayerScript : MonoBehaviour
     
     [SerializeField] float moveSpeed;
     [SerializeField] float dashPower;
+    private float currentHP;
+    private float maxHP = 100;
 
     [Header("Technical staff")]
     PlayersInput control;
     Rigidbody rb;
     Camera cam;
     Vector3 lookPos;
-    
-    [SerializeField] float camDistance;
-    
-   
+      
 
     private void Awake()
     {
         control = new PlayersInput();
         rb = GetComponent<Rigidbody>();
         cam = Camera.main;
+        currentHP = maxHP;
         
     }
     private void OnEnable()
@@ -34,22 +34,15 @@ public class PlayerScript : MonoBehaviour
         
     }
 
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         PlayerMove();
         PlayerTarget();
-        
+
         //CameraFollow тимчасова
-        //Vector3 followPosition = new Vector3(transform.position.x, cam.transform.position.y, transform.position.z- camDistance); 
-        //cam.transform.position = followPosition;
-        
+        Vector3 followPosition = new Vector3(transform.position.x, cam.transform.position.y, transform.position.z - 20);
+        cam.transform.position = followPosition;
+
 
 
     }
@@ -96,9 +89,21 @@ public class PlayerScript : MonoBehaviour
         
     }
 
-    
 
-    
+    public void TakeDamage(float damage)
+    {
+        if (currentHP > damage)
+        {
+            currentHP -= damage;
+        }
+        else
+        {
+            currentHP = 0;
+            Destroy(gameObject);
+        }
+
+    }
+
 
     private void OnDisable()
     {

@@ -34,10 +34,13 @@ public class BulletScript : MonoBehaviour
                 enemy.TakeDamage(bulletDamage);
                 Destroy(gameObject);
             }
-            else
-            {
-                Destroy(gameObject);
-            }
+            else if (other.gameObject.CompareTag("Obstacle"))
+                {
+                    Destroy(gameObject);
+                }
+                
+                    
+           
         }
         
     }
