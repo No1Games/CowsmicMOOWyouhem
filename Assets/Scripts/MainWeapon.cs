@@ -11,7 +11,9 @@ public class MainWeapon : MonoBehaviour
     [SerializeField] string bulletPrefabName;
     [SerializeField] float fireRate;
     [SerializeField] private float bulletDamage;
-    
+    [SerializeField] float bulletSpeed = 20;
+    [SerializeField] float bulletRange = 30;
+
     private Coroutine shootingCoroutine;
     private bool isShooting;
    
@@ -59,9 +61,7 @@ public class MainWeapon : MonoBehaviour
         
     void Shot()
     {
-        float bulletSpeed = 20;
-        float bulletRange = 30;
-        bulletDamage = 25;
+        
         GameObject bullet = GenerateBullet();
         BulletScript bulletS = bullet.GetComponent<BulletScript>();
         bulletS.Initialize(bulletRange, bulletDamage);

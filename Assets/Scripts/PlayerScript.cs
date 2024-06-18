@@ -92,6 +92,7 @@ public class PlayerScript : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        Debug.Log("hit");
         if (currentHP > damage)
         {
             currentHP -= damage;
@@ -101,6 +102,7 @@ public class PlayerScript : MonoBehaviour
             currentHP = 0;
             Destroy(gameObject);
         }
+        Debug.Log(currentHP);
 
     }
 
