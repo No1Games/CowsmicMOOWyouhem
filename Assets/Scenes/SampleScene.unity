@@ -428,6 +428,8 @@ MonoBehaviour:
   maxEnemiesOnLvl: 15
   currentEnemiesAmount: 0
   spawnAmount: 5
+  minSpawnDistance: 30
+  maxSpawnDistance: 50
 --- !u!4 &284777635
 Transform:
   m_ObjectHideFlags: 0

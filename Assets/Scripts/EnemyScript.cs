@@ -6,11 +6,12 @@ using UnityEngine.AI;
 
 public class EnemyScript : MonoBehaviour
 {
-    
-    private float maxHP = 100;
+
+    [SerializeField] private float maxHP;
+    [SerializeField] private float defense;
     private float currentHP;
     [SerializeField] private float attackDamage;
-    [SerializeField] private float attackPace;
+    [SerializeField] private float attackSpeed;
     
     GameObject target;
     NavMeshAgent agent;
@@ -26,8 +27,10 @@ public class EnemyScript : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         sceneController = GameObject.Find("SceneController");
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage(float incomeDamage)
     {
+        float reflectedDamage = defense / 100 * incomeDamage;
+        float damage = incomeDamage - reflectedDamage;
         if(currentHP > damage)
         {
             currentHP -= damage;
@@ -83,7 +86,7 @@ public class EnemyScript : MonoBehaviour
         while (true)
         {
             script.TakeDamage(attackDamage);
-            yield return new WaitForSeconds(attackPace);
+            yield return new WaitForSeconds(attackSpeed);
         }
         
             

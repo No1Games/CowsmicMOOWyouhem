@@ -9,8 +9,10 @@ public class SceneControllerScript : MonoBehaviour
     [SerializeField] private int spawnAmount;
     GameObject player;
     private string enemyPrefabName = "EnemyPrefab";
+    [SerializeField] private float minSpawnDistance;
+    [SerializeField] private float maxSpawnDistance;
 
-   
+
     void Awake()
     {
         player = GameObject.Find("Player");
@@ -43,8 +45,7 @@ public class SceneControllerScript : MonoBehaviour
 
     Vector3 GetRandomPositionAroundPlayer()
     {
-        float minSpawnDistance = 20;
-        float maxSpawnDistance = 30;
+        
         float distance = Random.Range(minSpawnDistance, maxSpawnDistance);
         float angle = Random.Range(0, 2 * Mathf.PI);
 

@@ -119,8 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ddde6932c0eead4383b8a9cc4d659a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHP: 50
+  defense: 10
   attackDamage: 5
-  attackPace: 2
+  attackSpeed: 2
 --- !u!195 &5965095275987651659
 NavMeshAgent:
   m_ObjectHideFlags: 0
