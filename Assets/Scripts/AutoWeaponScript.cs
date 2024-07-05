@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class AutoWeaponScript : MonoBehaviour
 {
     [SerializeField] float autoAttackRange = 15;
-    [SerializeField] float autoAttackSpeed = 1;
+    [SerializeField] float autoAttackSpeed = 100;
     [SerializeField] float autoAttackDamage = 10;
     [SerializeField] float fireRate = 1f;
     string bulletPrefabName = "Bullet";

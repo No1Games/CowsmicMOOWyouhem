@@ -11,8 +11,8 @@ public class MainWeapon : MonoBehaviour
     [SerializeField] string bulletPrefabName;
     [SerializeField] float fireRate;
     [SerializeField] private float bulletDamage;
-    [SerializeField] float bulletSpeed = 20;
-    [SerializeField] float bulletRange = 30;
+    [SerializeField] float bulletSpeed = 1;
+    [SerializeField] float bulletRange = 1;
 
     private Coroutine shootingCoroutine;
     private bool isShooting;
