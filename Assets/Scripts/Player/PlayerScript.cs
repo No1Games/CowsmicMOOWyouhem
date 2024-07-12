@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-
-    [Header("Player parameters")]
-    
+    [Space]
     [SerializeField] float moveSpeed;
     [SerializeField] float dashPower;
     private float currentHP;

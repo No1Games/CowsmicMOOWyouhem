@@ -356,8 +356,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   dashPower: 7
-  camDistance: 20
-  bulletPrefabName: Bullet
 --- !u!65 &459708873
 BoxCollider:
   m_ObjectHideFlags: 0
