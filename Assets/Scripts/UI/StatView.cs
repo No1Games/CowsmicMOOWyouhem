@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class StatView : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private TextMeshProUGUI _titleTM;
+    [SerializeField] private TextMeshProUGUI _valueTM;
+
+    private string _title;
+    private float _value;
+    private float _newValue;
+
+    public void InitView(string statName, float statValue)
     {
-        
+        _title = statName;
+        _value = statValue;
+
+        _titleTM.text = _title;
+        _valueTM.text = _value.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

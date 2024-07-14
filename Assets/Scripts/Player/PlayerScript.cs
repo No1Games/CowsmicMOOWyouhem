@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -9,6 +10,9 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float dashPower;
     private float currentHP;
     private float maxHP = 100;
+
+    [Space]
+    [SerializeField] private TextMeshProUGUI healthTMP;
 
     [Header("Technical staff")]
     PlayersInput control;
@@ -23,7 +27,7 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cam = Camera.main;
         currentHP = maxHP;
-        
+        healthTMP.text = currentHP.ToString();
     }
     private void OnEnable()
     {
@@ -101,7 +105,7 @@ public class PlayerScript : MonoBehaviour
             Destroy(gameObject);
         }
         Debug.Log(currentHP);
-
+        healthTMP.text = currentHP.ToString();
     }
 
 

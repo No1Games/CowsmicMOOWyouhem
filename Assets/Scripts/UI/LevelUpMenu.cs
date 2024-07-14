@@ -13,6 +13,9 @@ public class LevelUpMenu : MonoBehaviour
     [SerializeField] private AttributeView _attributeViewPrefab;
     [SerializeField] private GameObject _attributesParent;
 
+    [SerializeField] private StatView _statViewPrefab;
+    [SerializeField] private GameObject _statsParent;
+
     [SerializeField] private Button _confirmButton;
     [SerializeField] private Button _resetButton;
 
@@ -31,17 +34,11 @@ public class LevelUpMenu : MonoBehaviour
         _availablePointsText.text = _attributesManager.LeftPoints.ToString();
         _availablePoints = _attributesManager.LeftPoints;
 
-        foreach (var attribute in attributesModel.Attributes)
-        {
-            AttributeView view = Instantiate(_attributeViewPrefab);
-            view.Init(attribute.Key, attribute.Value);
-            view.transform.SetParent(_attributesParent.transform, false);
-            view.AttributeIncresed += AttributeIncresed;
-            view.AttributeDecresed += AttributeDecresed;
-            _attributeViews.Add(view);
-        }
+        InitAttributes(attributesModel);
 
-        if(_attributesManager.LeftPoints > 0)
+        //InitStats();
+
+        if (_attributesManager.LeftPoints > 0)
         {
             EnableAll();
         }
@@ -58,6 +55,19 @@ public class LevelUpMenu : MonoBehaviour
         {
             view.AttributeIncresed -= AttributeIncresed;
             view.AttributeDecresed -= AttributeDecresed;
+        }
+    }
+
+    private void InitAttributes(PlayerAttributes attributesModel)
+    {
+        foreach (var attribute in attributesModel.Attributes)
+        {
+            AttributeView view = Instantiate(_attributeViewPrefab);
+            view.Init(attribute.Key, attribute.Value);
+            view.transform.SetParent(_attributesParent.transform, false);
+            view.AttributeIncresed += AttributeIncresed;
+            view.AttributeDecresed += AttributeDecresed;
+            _attributeViews.Add(view);
         }
     }
 
