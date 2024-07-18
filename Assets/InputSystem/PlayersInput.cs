@@ -55,18 +55,18 @@ public partial class @PlayersInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Dash"",
+                    ""name"": ""Interact"",
                     ""type"": ""Button"",
-                    ""id"": ""a9f3d2cd-53ef-4ce5-a326-5c3e9fff65eb"",
+                    ""id"": ""748f55f5-6922-4604-aebc-6652e903ed8f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Interact"",
+                    ""name"": ""Jump"",
                     ""type"": ""Button"",
-                    ""id"": ""748f55f5-6922-4604-aebc-6652e903ed8f"",
+                    ""id"": ""2369af93-8c9a-4f7d-84b1-bffb7cb33fd7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -153,23 +153,23 @@ public partial class @PlayersInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""18381793-08c3-4e00-8136-701b30cfd919"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""21aca853-997d-418b-8b20-5cab397b9e3f"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85aaeb96-99d4-4cd9-92de-c2899c1fcc39"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -183,8 +183,8 @@ public partial class @PlayersInput: IInputActionCollection2, IDisposable
         m_GameInput_Movement = m_GameInput.FindAction("Movement", throwIfNotFound: true);
         m_GameInput_MousePosition = m_GameInput.FindAction("MousePosition", throwIfNotFound: true);
         m_GameInput_Shot = m_GameInput.FindAction("Shot", throwIfNotFound: true);
-        m_GameInput_Dash = m_GameInput.FindAction("Dash", throwIfNotFound: true);
         m_GameInput_Interact = m_GameInput.FindAction("Interact", throwIfNotFound: true);
+        m_GameInput_Jump = m_GameInput.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -249,8 +249,8 @@ public partial class @PlayersInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_GameInput_Movement;
     private readonly InputAction m_GameInput_MousePosition;
     private readonly InputAction m_GameInput_Shot;
-    private readonly InputAction m_GameInput_Dash;
     private readonly InputAction m_GameInput_Interact;
+    private readonly InputAction m_GameInput_Jump;
     public struct GameInputActions
     {
         private @PlayersInput m_Wrapper;
@@ -258,8 +258,8 @@ public partial class @PlayersInput: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_GameInput_Movement;
         public InputAction @MousePosition => m_Wrapper.m_GameInput_MousePosition;
         public InputAction @Shot => m_Wrapper.m_GameInput_Shot;
-        public InputAction @Dash => m_Wrapper.m_GameInput_Dash;
         public InputAction @Interact => m_Wrapper.m_GameInput_Interact;
+        public InputAction @Jump => m_Wrapper.m_GameInput_Jump;
         public InputActionMap Get() { return m_Wrapper.m_GameInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -278,12 +278,12 @@ public partial class @PlayersInput: IInputActionCollection2, IDisposable
             @Shot.started += instance.OnShot;
             @Shot.performed += instance.OnShot;
             @Shot.canceled += instance.OnShot;
-            @Dash.started += instance.OnDash;
-            @Dash.performed += instance.OnDash;
-            @Dash.canceled += instance.OnDash;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(IGameInputActions instance)
@@ -297,12 +297,12 @@ public partial class @PlayersInput: IInputActionCollection2, IDisposable
             @Shot.started -= instance.OnShot;
             @Shot.performed -= instance.OnShot;
             @Shot.canceled -= instance.OnShot;
-            @Dash.started -= instance.OnDash;
-            @Dash.performed -= instance.OnDash;
-            @Dash.canceled -= instance.OnDash;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(IGameInputActions instance)
@@ -325,7 +325,7 @@ public partial class @PlayersInput: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnShot(InputAction.CallbackContext context);
-        void OnDash(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

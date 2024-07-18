@@ -19,7 +19,6 @@ public class PlayerScript : MonoBehaviour
     Rigidbody rb;
     Camera cam;
     Vector3 lookPos;
-      
 
     private void Awake()
     {
@@ -27,12 +26,13 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cam = Camera.main;
         currentHP = maxHP;
-        healthTMP.text = currentHP.ToString();
+        //healthTMP.text = currentHP.ToString();
     }
+
     private void OnEnable()
     {
         control.GameInput.Enable();
-        control.GameInput.Dash.performed += _ => Dash();
+        //control.GameInput.Dash.performed += _ => Dash();
         
     }
 
@@ -55,7 +55,7 @@ public class PlayerScript : MonoBehaviour
         Vector3 movement = new Vector3(moveDirection.x, 0, moveDirection.y);
         rb.MovePosition(transform.position + movement * moveSpeed * Time.deltaTime);
 
-     }
+    }
 
     void PlayerTarget() //TODO: пофіксити проблему коли рей не б'ється ні в що.
     {
@@ -105,7 +105,7 @@ public class PlayerScript : MonoBehaviour
             Destroy(gameObject);
         }
         Debug.Log(currentHP);
-        healthTMP.text = currentHP.ToString();
+        //healthTMP.text = currentHP.ToString();
     }
 
 

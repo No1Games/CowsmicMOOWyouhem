@@ -14,13 +14,14 @@ public class AttributeView : MonoBehaviour
     private int _attrValue;
     public int Value => _attrValue;
     private int _newValue;
+    public int NewValue => _newValue;
 
     [Header("Buttons")]
     [SerializeField] private Button _decreseButton;
     [SerializeField] private Button _increseButton;
 
-    public event Action AttributeIncresed;
-    public event Action AttributeDecresed;
+    public event Action<AttributesEnum> AttributeIncresed;
+    public event Action<AttributesEnum> AttributeDecresed;
 
     private bool _incresed = false;
     public bool Incresed => _incresed;
@@ -50,14 +51,14 @@ public class AttributeView : MonoBehaviour
 
         _incresed = true;
 
-        AttributeIncresed?.Invoke();
+        AttributeIncresed?.Invoke(_attribute);
     }
 
     public void DecreseClick()
     {
         ResetView();
 
-        AttributeDecresed?.Invoke();
+        AttributeDecresed?.Invoke(_attribute);
     }
 
     public void ResetView()
