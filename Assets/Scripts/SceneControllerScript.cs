@@ -33,7 +33,7 @@ public class SceneControllerScript : MonoBehaviour
             for(int i=0; i < spawnAmount; i++)
             {
                 GameObject enemyPref = Resources.Load<GameObject>(enemyPrefabName);
-                Vector3 spawnPoint = GetRandomPositionAroundPlayer();
+                Vector3 spawnPoint = SetSpawnPosition();
                 GameObject enemy = Instantiate(enemyPref, spawnPoint, Quaternion.identity);
                 currentEnemiesAmount++;
             }
@@ -52,6 +52,30 @@ public class SceneControllerScript : MonoBehaviour
         float x = player.transform.position.x + distance * Mathf.Cos(angle);
         float z = player.transform.position.z + distance * Mathf.Sin(angle);
 
+        
         return new Vector3(x, player.transform.position.y, z);
+                
+    }
+
+    Vector3 SetSpawnPosition()
+    {
+        Vector3 spawnPoint = GetRandomPositionAroundPlayer();
+        RaycastHit hit;
+        bool positionFound = false;
+        while(!positionFound)
+        {
+            Ray ray = new Ray(spawnPoint, Vector3.down);
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider.CompareTag("Ground"))
+                {
+                    positionFound = true;
+                }
+            }
+            else { spawnPoint = GetRandomPositionAroundPlayer(); }
+        }
+        
+        return spawnPoint;
+
     }
 }
