@@ -20,12 +20,15 @@ public class PlayerScript : MonoBehaviour
     Camera cam;
     Vector3 lookPos;
 
+    Animator animator;
+
     private void Awake()
     {
         control = new PlayersInput();
         rb = GetComponent<Rigidbody>();
         cam = Camera.main;
         currentHP = maxHP;
+        animator = GetComponentInChildren<Animator>();
         //healthTMP.text = currentHP.ToString();
     }
 
@@ -40,6 +43,7 @@ public class PlayerScript : MonoBehaviour
     {
         PlayerMove();
         PlayerTarget();
+        MoveChecker();
 
         //CameraFollow тимчасова
         Vector3 followPosition = new Vector3(transform.position.x, cam.transform.position.y, transform.position.z - 20);
@@ -55,6 +59,22 @@ public class PlayerScript : MonoBehaviour
         Vector3 movement = new Vector3(moveDirection.x, 0, moveDirection.y);
         rb.MovePosition(transform.position + movement * moveSpeed * Time.deltaTime);
 
+    }
+
+    void MoveChecker()
+    {
+        Vector2 _moveDirection = control.GameInput.Movement.ReadValue<Vector2>();
+        if (_moveDirection.x == 0 && _moveDirection.y == 0)
+        {
+            
+            animator.ResetTrigger("StartWalking");
+            animator.SetTrigger("StopWalking");
+        }
+        else
+        {
+            animator.ResetTrigger("StopWalking");
+            animator.SetTrigger("StartWalking");
+        }
     }
 
     void PlayerTarget() //TODO: пофіксити проблему коли рей не б'ється ні в що.
