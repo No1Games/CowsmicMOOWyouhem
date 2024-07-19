@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -8,11 +9,8 @@ public class PlayerScript : MonoBehaviour
     [Space]
     [SerializeField] float moveSpeed;
     [SerializeField] float dashPower;
-    private float currentHP;
-    private float maxHP = 100;
-
-    [Space]
-    [SerializeField] private TextMeshProUGUI healthTMP;
+    private float _currentHP;
+    private float _maxHP = 100;
 
     [Header("Technical staff")]
     PlayersInput control;
@@ -22,18 +20,35 @@ public class PlayerScript : MonoBehaviour
 
     Animator animator;
 
+    HealthBar HBScript;
+
+    public float maxHP
+    {
+        get { return _maxHP; }
+        private set { _maxHP = value; }
+    }
+    public float currentHP
+    {
+        get { return _currentHP; }
+        private set { _currentHP = value; }
+    }
+
     private void Awake()
     {
         control = new PlayersInput();
         rb = GetComponent<Rigidbody>();
         cam = Camera.main;
-        currentHP = maxHP;
+        _currentHP = _maxHP;
         animator = GetComponentInChildren<Animator>();
+        HBScript = GameObject.Find("healthbar").GetComponent<HealthBar>();
+        HBScript.SetMaxValue(_maxHP);
+        HBScript.SetCurrentValue(_currentHP);
         //healthTMP.text = currentHP.ToString();
     }
 
     private void OnEnable()
     {
+        
         control.GameInput.Enable();
         //control.GameInput.Dash.performed += _ => Dash();
         
@@ -115,19 +130,21 @@ public class PlayerScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         Debug.Log("hit");
-        if (currentHP > damage)
+        if (_currentHP > damage)
         {
-            currentHP -= damage;
+            _currentHP -= damage;
+            HBScript.SetCurrentValue(_currentHP);
         }
         else
         {
-            currentHP = 0;
+            _currentHP = 0;
+            HBScript.SetCurrentValue(_currentHP);
             Destroy(gameObject);
         }
-        Debug.Log(currentHP);
+        Debug.Log(_currentHP);
         //healthTMP.text = currentHP.ToString();
     }
-
+    
 
     private void OnDisable()
     {
