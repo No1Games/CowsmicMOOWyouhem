@@ -1008,6 +1008,7 @@ MonoBehaviour:
   _statsParent: {fileID: 4837633022541337876}
   _confirmButton: {fileID: 2238548638289999563}
   _resetButton: {fileID: 667642687309535349}
+  _skipStats: 0700000009000000
 --- !u!1 &5523811349884452570
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,6 +23,9 @@ public class LevelUpMenu : MonoBehaviour
     [SerializeField] private Button _confirmButton;
     [SerializeField] private Button _resetButton;
 
+    [Space]
+    [SerializeField] private List<StatsEnum> _skipStats;
+
     private AttributesManager _attributesManager;
 
     private List<AttributeView> _attributeViews;
@@ -81,6 +84,8 @@ public class LevelUpMenu : MonoBehaviour
     {
         foreach(var stat in statsModel.Stats)
         {
+            if (_skipStats.Contains(stat.Name)) continue;
+
             StatView view = Instantiate(_statViewPrefab);
             view.InitView(stat, stat.NameStr, stat.BaseValue);
             view.transform.SetParent(_statsParent.transform, false);

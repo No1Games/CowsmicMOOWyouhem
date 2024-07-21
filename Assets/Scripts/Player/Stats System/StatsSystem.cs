@@ -39,7 +39,7 @@ public class StatsSystem : MonoBehaviour
         {
             case AttributesEnum.Strike:
 
-                result.Add(StatsEnum.Damage, GetDamageWithBonus());
+                result.Add(StatsEnum.Damage, GetIncresedDamageWithBonus());
 
                 stat = _stats.Stats.Find(stat => stat.Name == StatsEnum.CritMultiplier);
                 result.Add(StatsEnum.CritMultiplier, stat.CurrentValue + stat.IncreseValue);
@@ -51,7 +51,7 @@ public class StatsSystem : MonoBehaviour
                 stat = _stats.Stats.Find(stat => stat.Name == StatsEnum.CritChance);
                 result.Add(StatsEnum.CritChance, stat.CurrentValue + stat.IncreseValue);
 
-                result.Add(StatsEnum.AttkSpeed, GetAttackSpeedWithBonus());
+                result.Add(StatsEnum.AttkSpeed, GetIncresedAttackSpeedWithBonus());
 
                 return result;
             
@@ -108,10 +108,19 @@ public class StatsSystem : MonoBehaviour
         critMultiplier.CurrentValue = critMultiplier.IncreseValue * _attributes.Attributes[AttributesEnum.Strike];
     }
 
-    private float GetDamageWithBonus()
+    private float GetIncresedDamageWithBonus()
     {
         PlayerStat damageBonusStat = _stats.Stats.Find(stat => stat.Name == StatsEnum.DamageBonus);
         float damageBonus = damageBonusStat.CurrentValue + damageBonusStat.IncreseValue;
+        float baseDamage = _stats.Stats.Find(stat => stat.Name == StatsEnum.Damage).CurrentValue;
+
+        return baseDamage + (damageBonus * baseDamage / 100f);
+    }
+
+    public float GetCurrentDamageWithBonus()
+    {
+        PlayerStat damageBonusStat = _stats.Stats.Find(stat => stat.Name == StatsEnum.DamageBonus);
+        float damageBonus = damageBonusStat.CurrentValue;
         float baseDamage = _stats.Stats.Find(stat => stat.Name == StatsEnum.Damage).CurrentValue;
 
         return baseDamage + (damageBonus * baseDamage / 100f);
@@ -126,10 +135,19 @@ public class StatsSystem : MonoBehaviour
         attackSpeedBonus.CurrentValue = attackSpeedBonus.IncreseValue * _attributes.Attributes[AttributesEnum.Fury];
     }
 
-    private float GetAttackSpeedWithBonus()
+    private float GetIncresedAttackSpeedWithBonus()
     {
         PlayerStat stat = _stats.Stats.Find(stat => stat.Name == StatsEnum.AttckSpeedBonus);
         float attackSpeedBonus = stat.CurrentValue + stat.IncreseValue;
+        float attackSpeed = _stats.Stats.Find(stat => stat.Name == StatsEnum.AttkSpeed).CurrentValue;
+
+        return attackSpeed - (attackSpeedBonus * attackSpeed / 100f);
+    }
+    
+    public float GetCurrentAttackSpeedWithBonus()
+    {
+        PlayerStat stat = _stats.Stats.Find(stat => stat.Name == StatsEnum.AttckSpeedBonus);
+        float attackSpeedBonus = stat.CurrentValue;
         float attackSpeed = _stats.Stats.Find(stat => stat.Name == StatsEnum.AttkSpeed).CurrentValue;
 
         return attackSpeed - (attackSpeedBonus * attackSpeed / 100f);
