@@ -22,12 +22,12 @@ public class PlayerScript : MonoBehaviour
 
     HealthBar HBScript;
 
-    public float maxHP
+    public float MaxHP
     {
         get { return _maxHP; }
         private set { _maxHP = value; }
     }
-    public float currentHP
+    public float CurrentHP
     {
         get { return _currentHP; }
         private set { _currentHP = value; }
