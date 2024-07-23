@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SceneControllerScript : MonoBehaviour
 {
@@ -13,9 +14,23 @@ public class SceneControllerScript : MonoBehaviour
     [SerializeField] private float maxSpawnDistance;
 
 
+    [Space(10)] 
+    [Header("Main Goal")]
+    [SerializeField] private Slider mainGoalSlider;
+    [SerializeField] private int timeOFRound;
+    private float timer;
+    [SerializeField] float[] keyPointForSpawn = new float[3];
+    
+
+
+
+
     void Awake()
     {
         player = GameObject.Find("Player");
+        mainGoalSlider.maxValue = timeOFRound;
+        mainGoalSlider.minValue = 0;
+        
         
     }
 
@@ -23,7 +38,43 @@ public class SceneControllerScript : MonoBehaviour
     void Update()
     {
         SpawnEnemies();
+        CheckMainGoalProgress();
+
+
+
     }
+
+    void CheckMainGoalProgress()
+    {
+        
+        if (timer < timeOFRound)
+        {
+            timer += Time.deltaTime;
+            mainGoalSlider.value = timer;
+        }
+        else
+        {
+            timer = 4;
+            Debug.Log("You win! Load nextScene");
+        }
+
+        if (timer >= keyPointForSpawn[0]&& timer < keyPointForSpawn[1])
+        {
+            Debug.Log("Кількість мобів збільшено 1");
+            // Код для першого значення
+        }
+        else if (timer >= keyPointForSpawn[1] && timer < keyPointForSpawn[2])
+        {
+            Debug.Log("Кількість мобів збільшено 2");
+            // Код для другого значення
+        }
+        else if (timer >= keyPointForSpawn[2])
+        {
+            Debug.Log("Кількість мобів збільшено 3");
+            // Код для третього значення
+        }
+    }
+    
 
     void SpawnEnemies()
     {
