@@ -9,6 +9,7 @@ public class BulletScript : MonoBehaviour
     private Vector3 startPosition;
     private float maxDistance;
     private float bulletDamage;
+    private TypeOfDamage damageType = TypeOfDamage.MainWeapon;
 
     public void Initialize(float maxDistance, float bulletDamage)
     {
@@ -33,7 +34,7 @@ public class BulletScript : MonoBehaviour
             if (other.gameObject.CompareTag("Enemy"))
             {
                 EnemyScript enemy = other.gameObject.GetComponent<EnemyScript>();
-                enemy.TakeDamage(bulletDamage);
+                enemy.TakeDamage(bulletDamage, damageType);
                 Destroy(gameObject);
             }
             else if (other.gameObject.CompareTag("Obstacle"))

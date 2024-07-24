@@ -51,6 +51,7 @@ MonoBehaviour:
   defense: 0
   attackDamage: 10
   attackSpeed: 2
+  type: 0
 --- !u!195 &7829973606751218672
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -194,9 +195,8 @@ Animation:
   m_GameObject: {fileID: 5529631777743267103}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: -5897726316701381108, guid: 5b3b58f1b5918be4ca0af4009899f359, type: 3}
-  m_Animations:
-  - {fileID: -5897726316701381108, guid: 5b3b58f1b5918be4ca0af4009899f359, type: 3}
+  m_Animation: {fileID: 0}
+  m_Animations: []
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0

@@ -18,15 +18,21 @@ public class SceneControllerScript : MonoBehaviour
     [Header("Main Goal")]
     [SerializeField] private Slider mainGoalSlider;
     [SerializeField] private int timeOFRound;
-    private float timer;
+    public float timer;
     [SerializeField] float[] keyPointForSpawn = new float[3];
+
+
+    [Space(10)]
+    [Header("SideGoals")]
+    public List<DeadMobInform> DeadMobs = new List<DeadMobInform>();
     
-
-
+    public int mobsKilled;
+    
 
 
     void Awake()
     {
+        
         player = GameObject.Find("Player");
         mainGoalSlider.maxValue = timeOFRound;
         mainGoalSlider.minValue = 0;
@@ -41,6 +47,16 @@ public class SceneControllerScript : MonoBehaviour
         CheckMainGoalProgress();
 
 
+
+    }
+
+    public void AddKill(TypeOfEnemy type, List<TypeOfDamage> damage)
+    {
+        currentEnemiesAmount--;
+        mobsKilled++;
+        DeadMobs.Add(new DeadMobInform(type, new List<TypeOfDamage>(damage), timer));
+        Debug.Log(mobsKilled + " " + timer);
+        
 
     }
 

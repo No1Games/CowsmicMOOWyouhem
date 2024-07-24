@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem.XR;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -12,10 +13,15 @@ public class EnemyScript : MonoBehaviour
     private float currentHP;
     [SerializeField] private float attackDamage;
     [SerializeField] private float attackSpeed;
+
+    List<TypeOfDamage> damageList = new List<TypeOfDamage>();
     
+    [SerializeField] TypeOfEnemy type;
+
+
     GameObject target;
     NavMeshAgent agent;
-    GameObject sceneController;
+    SceneControllerScript sceneController;
 
     private Coroutine attackCoroutine;
     private bool isAttacking;
@@ -25,10 +31,12 @@ public class EnemyScript : MonoBehaviour
         currentHP = maxHP; 
         target = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
-        sceneController = GameObject.Find("SceneController");
+        sceneController = GameObject.Find("SceneController").GetComponent<SceneControllerScript>();
+        
     }
-    public void TakeDamage(float incomeDamage)
+    public void TakeDamage(float incomeDamage, TypeOfDamage damageType)
     {
+        damageList.Add(damageType);
         float reflectedDamage = defense / 100 * incomeDamage;
         float damage = incomeDamage - reflectedDamage;
         if(currentHP > damage)
@@ -39,8 +47,8 @@ public class EnemyScript : MonoBehaviour
         else
         {
             currentHP = 0;
-            SceneControllerScript script = sceneController.GetComponent<SceneControllerScript>();
-            script.currentEnemiesAmount--;
+
+            sceneController.AddKill(type, new List<TypeOfDamage>(damageList));
             Destroy(gameObject);
         }
         
