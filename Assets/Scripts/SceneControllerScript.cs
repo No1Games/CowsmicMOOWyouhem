@@ -25,6 +25,8 @@ public class SceneControllerScript : MonoBehaviour
     [Space(10)]
     [Header("SideGoals")]
     public List<DeadMobInform> DeadMobs = new List<DeadMobInform>();
+    public List<PlayerInform> playerInforms = new List<PlayerInform>();
+    public float playersHpAtStart;
     
     public int mobsKilled;
     
@@ -34,6 +36,7 @@ public class SceneControllerScript : MonoBehaviour
     {
         
         player = GameObject.Find("Player");
+        playersHpAtStart = player.GetComponent<PlayerScript>().MaxHP;
         mainGoalSlider.maxValue = timeOFRound;
         mainGoalSlider.minValue = 0;
         
@@ -58,6 +61,10 @@ public class SceneControllerScript : MonoBehaviour
         Debug.Log(mobsKilled + " " + timer);
         
 
+    }
+    public void AddPlayerInform(TypeOfEnemy type, float damage)
+    {
+        playerInforms.Add(new PlayerInform(type, timer ,damage));
     }
 
     void CheckMainGoalProgress()

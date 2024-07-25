@@ -6,43 +6,80 @@ using UnityEngine.InputSystem.XR;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
 public class GoalManager : MonoBehaviour
 {
-    [SerializeField] GoalsObject goalOne;
+    [SerializeField] List<GoalsObject> firstLevelGoals = new List<GoalsObject>();
+    [SerializeField] List<GoalsObject> hardGoals = new List<GoalsObject>();
+
+    GoalsObject goalOne;
     [SerializeField] TextMeshProUGUI textGoalOne;
     [SerializeField] Slider sliderGoalOne;
+    
 
     GoalsObject goalTwo;
     [SerializeField] TextMeshProUGUI textGoalTwo;
     [SerializeField] Slider sliderGoalTwo;
+   
 
     GoalsObject goalThree;
     [SerializeField] TextMeshProUGUI textGoalThree;
     [SerializeField] Slider sliderGoalThree;
+    
 
     [SerializeField] SceneControllerScript controller;
+    
 
     private void Awake()
     {
+        ChooseGoals(firstLevelGoals, hardGoals);
         textGoalOne.text = goalOne.textOfTask;
         sliderGoalOne.maxValue = goalOne.valueToReach;
         sliderGoalOne.value = 0;
 
+        textGoalTwo.text = goalTwo.textOfTask;
+        sliderGoalTwo.maxValue = goalTwo.valueToReach;
+        sliderGoalTwo.value = 0;
+
+        textGoalThree.text = goalThree.textOfTask;
+        sliderGoalThree.maxValue = goalThree.valueToReach;
+        sliderGoalThree.value = 0;
     }
 
     void Update()
     {
-        CheckGoalProgress(goalOne);
-        sliderGoalOne.value = goalOne.currentValue;
-        
-        //CheckGoalProgress(goalTwo);
-        //CheckGoalProgress(goalThree);
+        CheckGoalProgress(goalOne, sliderGoalOne);
+        CheckGoalProgress(goalTwo, sliderGoalTwo);
+        CheckGoalProgress(goalThree, sliderGoalThree);
 
 
     }
 
-    void CheckGoalProgress(GoalsObject goal)
+    private void ChooseGoals(List<GoalsObject> simpleGoals, List<GoalsObject> hardGoals )
     {
+        int firstGoalIndex = Random.Range(0, simpleGoals.Count);
+        goalOne = simpleGoals[firstGoalIndex];
+
+        
+        int secondGoalIndex;
+
+        do
+        {
+            secondGoalIndex = Random.Range(0, simpleGoals.Count);
+        } while (secondGoalIndex == firstGoalIndex);
+
+        goalTwo = simpleGoals[secondGoalIndex];
+
+        int thirdGoalIndex = Random.Range(0, hardGoals.Count);
+        goalThree = hardGoals[thirdGoalIndex];
+    }
+
+    void CheckGoalProgress(GoalsObject goal, Slider goalSlider)
+    {
+        if(goal.goalStatus != GoalStatus.Complete)
+        {
+
+        
         switch (goal.typeOfGoal)
         {
             case TypeOfGoal.DestroyAliensNumber:
@@ -61,10 +98,35 @@ public class GoalManager : MonoBehaviour
             case TypeOfGoal.OneTypeKill:
                 OneTypeKill(goal);
                 break;
+            case TypeOfGoal.UntilBasicGoalsDone:
+                UntilBasicGoalsDone(goal);
+                break;
+            case TypeOfGoal.CollectDamage:
+                CollectDamage(goal);
+                break;
+            case TypeOfGoal.AvoidDamageTime:
+                AvoidDamageTime(goal);
+                break;
+
+        }
+        }
+
+        if (goal.currentValue >= goal.valueToReach)
+        {
+            goalSlider.value = goal.valueToReach;
+            goal.goalStatus = GoalStatus.Complete;
+            Debug.Log("Congrats, tou complete task: " + goal.textOfTask);
+        }
+        else
+        {
+
+            goalSlider.value = goal.currentValue;
 
         }
     }
 
+
+    #region Simple Goals
     void DestroyAliens(GoalsObject goal) // «нищити певну к≥льк≥сть певних ворог≥в
     {
         if (controller.DeadMobs != null)
@@ -72,7 +134,7 @@ public class GoalManager : MonoBehaviour
             int preValue = 0;
             foreach (DeadMobInform mob in controller.DeadMobs)
             {
-                if (mob.type == goal.mobType)
+                if (mob.type == goal.mobType || goal.mobType == TypeOfEnemy.Any)
                 {
                     preValue++;
                 }
@@ -109,30 +171,7 @@ public class GoalManager : MonoBehaviour
                 goal.currentValue = controller.mobsKilled - controller.DeadMobs.IndexOf(mobToTrack) + 1;
             }
             Debug.Log("goal " + goal.currentValue);
-            //else
-            //{
-            //    goal.currentValue = 0;
-            //}
             
-            //bool haveTime = controller.timer - mobToTrack.livingTime < goal.timeToBeat;
-            
-            //if (haveTime)
-            //{
-            //    prevValue = controller.mobsKilled - controller.DeadMobs.IndexOf(mobToTrack) + 1;
-            //}
-            //else
-            //{
-                
-            //    bool mobIsFound = false;
-            //    for (int i = 0; i < controller.DeadMobs.Count; i++)
-            //    {
-            //        if (controller.timer - controller.DeadMobs[i].livingTime < 15 && !mobIsFound)
-            //        {
-            //            mobToTrack = controller.DeadMobs[i];
-            //            mobIsFound = true;
-            //        }
-            //    }
-            //}
         }
     }
 
@@ -223,5 +262,44 @@ public class GoalManager : MonoBehaviour
 
     } // ¬бити ворога т≥льки одного типу
 
+    private void AvoidDamageTime(GoalsObject goal)
+    {
+        if (controller.playerInforms != null && controller.playerInforms.Count >0)
+        {
+            float preValue = 0;
+            preValue = controller.timer - controller.playerInforms[^1].timeOfAttack;
+            goal.currentValue = (int)preValue;
+        }
+        
+    }
 
+#endregion
+
+    #region Complex Goals
+
+    void UntilBasicGoalsDone(GoalsObject goal)
+    {
+        if(goalOne.goalStatus == GoalStatus.Complete && goalTwo.goalStatus == GoalStatus.Complete && controller.playerInforms.Count == 0)
+        {
+            goal.currentValue = goal.valueToReach;
+        }
+
+    }
+
+    void CollectDamage(GoalsObject goal)
+    {
+        goal.valueToReach = (int) controller.playersHpAtStart / 100 * 80;
+        float preValue = 0;
+
+        foreach(PlayerInform damage in controller.playerInforms)
+        {
+            preValue += damage.damage;
+
+        }
+        goal.currentValue = (int)preValue;
+
+    }
+
+
+    #endregion
 }

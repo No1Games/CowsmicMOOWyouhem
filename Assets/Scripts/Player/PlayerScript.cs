@@ -19,6 +19,7 @@ public class PlayerScript : MonoBehaviour
     Vector3 lookPos;
 
     Animator animator;
+    [SerializeField] SceneControllerScript controllerScript;
 
     HealthBar HBScript;
 
@@ -33,6 +34,8 @@ public class PlayerScript : MonoBehaviour
         private set { _currentHP = value; }
     }
 
+    
+
     private void Awake()
     {
         control = new PlayersInput();
@@ -43,7 +46,7 @@ public class PlayerScript : MonoBehaviour
         HBScript = GameObject.Find("healthbar").GetComponent<HealthBar>();
         HBScript.SetMaxValue(_maxHP);
         HBScript.SetCurrentValue(_currentHP);
-        //healthTMP.text = currentHP.ToString();
+        
     }
 
     private void OnEnable()
@@ -127,9 +130,10 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, TypeOfEnemy attacker)
     {
-        Debug.Log("hit");
+        controllerScript.AddPlayerInform(attacker, damage);
+
         if (_currentHP > damage)
         {
             _currentHP -= damage;
@@ -141,8 +145,7 @@ public class PlayerScript : MonoBehaviour
             HBScript.SetCurrentValue(_currentHP);
             Destroy(gameObject);
         }
-        Debug.Log(_currentHP);
-        //healthTMP.text = currentHP.ToString();
+        
     }
     
 

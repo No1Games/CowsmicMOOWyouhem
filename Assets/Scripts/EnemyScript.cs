@@ -93,7 +93,7 @@ public class EnemyScript : MonoBehaviour
     {
         while (true)
         {
-            script.TakeDamage(attackDamage);
+            script.TakeDamage(attackDamage, type);
             yield return new WaitForSeconds(attackSpeed);
         }
         
