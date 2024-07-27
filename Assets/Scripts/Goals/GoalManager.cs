@@ -32,6 +32,9 @@ public class GoalManager : MonoBehaviour
 
     private void Awake()
     {
+
+        //ClearGoalProgress(firstLevelGoals);
+        //ClearGoalProgress(hardGoals);
         ChooseGoals(firstLevelGoals, hardGoals);
         textGoalOne.text = goalOne.textOfTask;
         sliderGoalOne.maxValue = goalOne.valueToReach;
@@ -55,6 +58,13 @@ public class GoalManager : MonoBehaviour
 
     }
 
+    void ClearGoalProgress(List<GoalsObject> goalList)
+    {
+        foreach (GoalsObject goal in goalList)
+        {
+            goal.currentValue = 0;
+        }
+    }
     private void ChooseGoals(List<GoalsObject> simpleGoals, List<GoalsObject> hardGoals )
     {
         int firstGoalIndex = Random.Range(0, simpleGoals.Count);

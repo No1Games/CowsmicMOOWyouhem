@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textOfTask: "\u0417\u043D\u0438\u0449\u0438\u0442\u0438 50 basic aliens"
   valueToReach: 50
+  problemValue: 0
   currentValue: 0
-  mobType: basic aliens
+  mobType: 0
   timeToBeat: 0
-  typeOfGoal: 0
+  goalStatus: 1
+  typeOfGoal: 2
   firstDamageType: 0
   secondDamageType: 0

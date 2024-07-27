@@ -22,7 +22,11 @@ public class MainWeapon : MonoBehaviour
     private void Awake()
     {
         control = new PlayersInput();
-        
+
+        int playerLayer = LayerMask.NameToLayer("Player");
+        int bulletLayer = LayerMask.NameToLayer("Bullet");
+        Physics.IgnoreLayerCollision(playerLayer, bulletLayer);
+
     }
     private void OnEnable()
     {
@@ -65,6 +69,7 @@ public class MainWeapon : MonoBehaviour
         GameObject bullet = GenerateBullet();
         BulletScript bulletS = bullet.GetComponent<BulletScript>();
         bulletS.Initialize(bulletRange, bulletDamage);
+       
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
 
