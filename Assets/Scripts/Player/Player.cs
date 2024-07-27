@@ -1,5 +1,6 @@
 using UnityEngine;
 using MooyhemEnums;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     
     private float _jumpForce;
     private float _jumpCooldown;
+    private bool _isJumpCooldown;
     private bool _isJumping = false;
 
     #endregion
@@ -58,10 +60,19 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if(_isJumping) return;
+        if(_isJumping || _isJumpCooldown) return;
 
         _isJumping = true;
+        _isJumpCooldown = true;
         _playerRB.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
+        StartCoroutine(JumpCooldown());
+    }
+
+    private IEnumerator JumpCooldown()
+    {
+        yield return new WaitForSeconds(_jumpCooldown);
+
+        _isJumpCooldown = false;
     }
 
     private void Move()
