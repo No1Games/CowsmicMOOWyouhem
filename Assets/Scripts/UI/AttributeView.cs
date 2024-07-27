@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using MooyhemEnums;
 
 public class AttributeView : MonoBehaviour
 {
@@ -9,8 +10,8 @@ public class AttributeView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _title;
     [SerializeField] private TextMeshProUGUI _value;
 
-    private AttributesEnum _attribute;
-    public AttributesEnum Attribute => _attribute;
+    private Attributes  _attribute;
+    public Attributes  Attribute => _attribute;
     private int _attrValue;
     public int Value => _attrValue;
     private int _newValue;
@@ -20,13 +21,13 @@ public class AttributeView : MonoBehaviour
     [SerializeField] private Button _decreseButton;
     [SerializeField] private Button _increseButton;
 
-    public event Action<AttributesEnum> AttributeIncresed;
-    public event Action<AttributesEnum> AttributeDecresed;
+    public event Action<Attributes > AttributeIncresed;
+    public event Action<Attributes > AttributeDecresed;
 
     private bool _incresed = false;
     public bool Incresed => _incresed;
 
-    public void Init(AttributesEnum attribute, int value)
+    public void Init(Attributes attribute, int value)
     {
         _title.text = attribute.ToString();
         _value.text = value.ToString();

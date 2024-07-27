@@ -1,9 +1,12 @@
-public enum AttributesEnum
+namespace MooyhemEnums
 {
-    Strike, Fury, Energy, Guard, Agility
-}
+    public enum Attributes
+    {
+        Strike, Fury, Energy, Guard, Agility
+    }
 
-public enum StatsEnum
-{
-    HealthPoints, HpRegen, Defence, Evasion, MoveSpeed, JumpTime, Damage, DamageBonus, AttkSpeed, AttckSpeedBonus, CritChance, CritMultiplier
+    public enum Stats
+    {
+        HealthPoints, HpRegen, Defence, Evasion, MoveSpeed, JumpCooldown, Damage, DamageBonus, AttkSpeed, AttckSpeedBonus, CritChance, CritMultiplier, JumpForce
+    }
 }
