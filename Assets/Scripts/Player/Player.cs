@@ -65,7 +65,6 @@ public class Player : MonoBehaviour
         _isJumping = true;
         _isJumpCooldown = true;
         _playerRB.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
-        StartCoroutine(JumpCooldown());
     }
 
     private IEnumerator JumpCooldown()
@@ -102,9 +101,11 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && _isJumping)
         {
             _isJumping = false;
+
+            StartCoroutine(JumpCooldown());
         }
     }
 }

@@ -34,9 +34,9 @@ MonoBehaviour:
     _baseValue: 7
     _increseValue: 0.3
   - _type: 5
-    _name: Jump Time
-    _baseValue: 0.8
-    _increseValue: 0.05
+    _name: Jump Cooldown
+    _baseValue: 2.5
+    _increseValue: -0.05
   - _type: 6
     _name: Damage
     _baseValue: 5
@@ -61,3 +61,7 @@ MonoBehaviour:
     _name: Critical Multiplier
     _baseValue: 150
     _increseValue: 6
+  - _type: 12
+    _name: Jump Force
+    _baseValue: 9
+    _increseValue: 0
