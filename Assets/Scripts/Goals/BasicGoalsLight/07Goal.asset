@@ -21,7 +21,7 @@ MonoBehaviour:
   currentValue: 0
   mobType: 3
   timeToBeat: 0
-  goalStatus: 0
+  goalStatus: 1
   typeOfGoal: 7
   firstDamageType: 0
   secondDamageType: 0
