@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using MooyhemEnums;
 using UnityEngine;
 
 [System.Serializable]
 public class StartStat
 {
-    [SerializeField] private StatsEnum _type;
-    public StatsEnum Type => _type;
+    [SerializeField] private Stats _type;
+    public Stats Type => _type;
 
     [SerializeField] private string _name;
     public string Name => _name;

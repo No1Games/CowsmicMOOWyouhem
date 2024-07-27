@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
+using MooyhemEnums;
 
 public class PlayerAttributes
 {
-    private Dictionary<AttributesEnum, int> _attributes;
-    public Dictionary<AttributesEnum, int> Attributes => _attributes;
+    private Dictionary<Attributes, int> _attributes;
+    public Dictionary<Attributes, int> Attributes => _attributes;
 
-    public PlayerAttributes(Dictionary<AttributesEnum, int> startAttributes = null)
+    public PlayerAttributes(Dictionary<Attributes, int> startAttributes = null)
     {
         if (startAttributes == null)
         {
-            _attributes = new Dictionary<AttributesEnum, int>();
-            foreach (AttributesEnum attr in Enum.GetValues(typeof(AttributesEnum)))
+            _attributes = new Dictionary<Attributes, int>();
+            foreach (Attributes attr in Enum.GetValues(typeof(Attributes)))
             {
                 _attributes.Add(attr, 0);
             }
@@ -22,7 +23,7 @@ public class PlayerAttributes
         }
     }
 
-    public void UpdateAttributes(Dictionary<AttributesEnum, int> attributes)
+    public void UpdateAttributes(Dictionary<Attributes, int> attributes)
     {
         _attributes = attributes;
     }

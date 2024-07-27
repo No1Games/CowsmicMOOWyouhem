@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MooyhemEnums;
 using UnityEngine;
 
 public class AttributesManager : MonoBehaviour
@@ -25,33 +26,33 @@ public class AttributesManager : MonoBehaviour
         _levelUpMenu.UpdateAttributes += OnAttributesUpdate;
     }
 
-    private void OnAttributesUpdate(Dictionary<AttributesEnum, int> attributesState)
+    private void OnAttributesUpdate(Dictionary<Attributes, int> attributesState)
     {
         _points = 0;
 
         _statsSystem.UpdateStats(attributesState);
     }
 
-    public Dictionary<StatsEnum, float> GetIncresedValues(AttributesEnum attributesEnum)
+    public Dictionary<Stats, float> GetIncresedValues(Attributes attributesEnum)
     {
         return _statsSystem.GetIncresedValues(attributesEnum);
     }
 
-    public List<StatsEnum> GetAttributeStats(AttributesEnum attribute)
+    public List<Stats> GetAttributeStats(Attributes attribute)
     {
         switch(attribute) 
         {
-            case AttributesEnum.Strike:
-                return new List<StatsEnum> { StatsEnum.Damage, StatsEnum.CritMultiplier };
-            case AttributesEnum.Fury:
-                return new List<StatsEnum> { StatsEnum.CritChance, StatsEnum.AttkSpeed };
-            case AttributesEnum.Energy:
-                return new List<StatsEnum> { StatsEnum.HealthPoints, StatsEnum.JumpTime };
-            case AttributesEnum.Guard:
-                return new List<StatsEnum> { StatsEnum.Defence, StatsEnum.HpRegen };
-            case AttributesEnum.Agility:
-                return new List<StatsEnum> { StatsEnum.Evasion, StatsEnum.MoveSpeed };
-            default: return new List<StatsEnum>();
+            case Attributes.Strike:
+                return new List<Stats> { Stats.Damage, Stats.CritMultiplier };
+            case Attributes.Fury:
+                return new List<Stats> { Stats.CritChance, Stats.AttkSpeed };
+            case Attributes.Energy:
+                return new List<Stats> { Stats.HealthPoints, Stats.JumpCooldown };
+            case Attributes.Guard:
+                return new List<Stats> { Stats.Defence, Stats.HpRegen };
+            case Attributes.Agility:
+                return new List<Stats> { Stats.Evasion, Stats.MoveSpeed };
+            default: return new List<Stats>();
         }
     }
 }

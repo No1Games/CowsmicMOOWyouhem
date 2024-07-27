@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using MooyhemEnums;
 
 public class LevelUpMenu : MonoBehaviour
 {
@@ -24,14 +25,14 @@ public class LevelUpMenu : MonoBehaviour
     [SerializeField] private Button _resetButton;
 
     [Space]
-    [SerializeField] private List<StatsEnum> _skipStats;
+    [SerializeField] private List<Stats> _skipStats;
 
     private AttributesManager _attributesManager;
 
     private List<AttributeView> _attributeViews;
     private List<StatView> _statViews;
 
-    public event Action<Dictionary<AttributesEnum, int>> UpdateAttributes;
+    public event Action<Dictionary<Attributes, int>> UpdateAttributes;
 
     public void Init(AttributesManager manager, PlayerAttributes attributesModel, PlayerStats statsModel)
     {
@@ -93,7 +94,7 @@ public class LevelUpMenu : MonoBehaviour
         }
     }
 
-    public void AttributeIncresed(AttributesEnum incresedAttr)
+    public void AttributeIncresed(Attributes incresedAttr)
     {
         _availablePoints--;
 
@@ -108,7 +109,7 @@ public class LevelUpMenu : MonoBehaviour
         }
     }
 
-    private void IncreseStats(Dictionary<StatsEnum, float> values)
+    private void IncreseStats(Dictionary<Stats, float> values)
     {
         foreach (var pair in values)
         {
@@ -117,7 +118,7 @@ public class LevelUpMenu : MonoBehaviour
         }
     }
 
-    public void AttributeDecresed(AttributesEnum decresedAttr)
+    public void AttributeDecresed(Attributes decresedAttr)
     {
         _availablePoints++;
 
@@ -132,7 +133,7 @@ public class LevelUpMenu : MonoBehaviour
         }
     }
 
-    private void DecreseStats(List<StatsEnum> stats)
+    private void DecreseStats(List<Stats> stats)
     {
         foreach (var stat in stats)
         {
@@ -170,7 +171,7 @@ public class LevelUpMenu : MonoBehaviour
 
     private void ConfirmClick()
     {
-        Dictionary<AttributesEnum, int> attributesState = GetCurrentAttributesState();
+        Dictionary<Attributes, int> attributesState = GetCurrentAttributesState();
 
         UpdateAttributes?.Invoke(attributesState);
 
@@ -189,9 +190,9 @@ public class LevelUpMenu : MonoBehaviour
         }
     }
 
-    private Dictionary<AttributesEnum, int> GetCurrentAttributesState()
+    private Dictionary<Attributes, int> GetCurrentAttributesState()
     {
-        Dictionary<AttributesEnum, int> attributesState = new Dictionary<AttributesEnum, int>();
+        Dictionary<Attributes, int> attributesState = new Dictionary<Attributes, int>();
 
         foreach (var attribute in _attributeViews)
         {

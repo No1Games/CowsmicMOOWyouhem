@@ -1,4 +1,5 @@
 using System;
+using MooyhemEnums;
 using UnityEngine;
 
 [System.Serializable]
@@ -13,8 +14,8 @@ public class PlayerStat
         _currentValue = _baseValue;
     }
 
-    [SerializeField] private StatsEnum _name;
-    public StatsEnum Name => _name;
+    [SerializeField] private Stats _name;
+    public Stats Name => _name;
     [SerializeField] private string _nameStr;
     public string NameStr => _nameStr;
     [SerializeField] private float _baseValue;
