@@ -2,7 +2,7 @@ using UnityEngine;
 using MooyhemEnums;
 using System.Collections;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     private Rigidbody _playerRB;
 
@@ -107,5 +107,36 @@ public class Player : MonoBehaviour
 
             StartCoroutine(JumpCooldown());
         }
+    }
+
+    public void TakeDamage(DamageData damageData)
+    {
+        Debug.Log($"Player was attacked by {damageData.Attacker.name}");
+
+        float amountAfterDefence = damageData.Amount - _statsSystem.GetStatValue(Stats.Defence);
+
+        if(amountAfterDefence <= 0)
+        {
+            Debug.Log($"All damage have been reduced by defend value: {damageData.Amount} - {_statsSystem.GetStatValue(Stats.Defence)}");
+            return;
+        }
+
+        float newHealth = _currentHP - amountAfterDefence;
+
+        if(newHealth <= 0)
+        {
+            _currentHP = 0;
+            Death(damageData);
+            return;
+        }
+
+        _currentHP = newHealth;
+
+        // !!! HEALTHBAR !!!
+    }
+
+    public void Death(DamageData damageData)
+    {
+        Debug.Log($"Player was killed by {damageData.Attacker}");
     }
 }
